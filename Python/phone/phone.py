@@ -16,12 +16,81 @@ else:
         return buf[start_offset:end_offset]
 
 
+def write2file(file_path, nums):
+    file_path.write('\t移动\t\t\t\t联通\t\t\t\t电信\n')
+    china_unicom = list(filter(lambda x: x.get('phone_type') == 2, nums))
+    china_mobile = list(filter(lambda x: x.get('phone_type') == 1, nums))
+    china_telecom = list(filter(lambda x: x.get('phone_type') == 3, nums))
+    max_length = max(len(china_mobile), len(china_telecom), len(china_unicom))
+    for i in range(max_length):
+        row1 = ''
+        row2 = ''
+        row3 = ''
+        if i < len(china_mobile):
+            row1 = china_mobile[i].get('phone')
+        if i < len(china_unicom):
+            row2 = china_unicom[i].get('phone')
+        if i < len(china_telecom):
+            row3 = china_telecom[i].get('phone')
+        row_txt = '{}\t\t\t\t{}\t\t\t\t{}'.format(row1, row2, row3)
+        if row1 != '':
+            row_txt = '{}\t\t{}\t\t\t\t{}'.format(row1, row2, row3)
+            if row2 != '':
+                row_txt = '{}\t\t{}\t\t{}'.format(row1, row2, row3)
+        else:
+            if row2 != '':
+                row_txt = '{}\t\t\t\t{}\t\t{}'.format(row1, row2, row3)
+        file_path.write(row_txt)
+        file_path.write('\n')
+
+    # for i in range(len(china_telecom)):
+    #     no_str = '\t\t\t\t' + nums[i].get('phone') + '\n'
+    #     file_path.write(no_str)
+
+    # for i in range(length):
+    #     no_str = nums[i].get('phone')
+    #     if nums[i].get('phone_type') == 3:
+    #         if i < (length - 1):
+    #             if nums[i + 1].get('phone_type') == 3:
+    #                 rowtxt = '{},{},{}'.format(,, no_str)
+    #                 file_path.write(rowtxt)
+    #                 file_path.write('\n')
+
+    # for i in range(length):
+    #     no_str = nums[i].get('phone')
+    #     if nums[i].get('phone_type') == 3:
+    #         if i < (length - 1):
+    #             if nums[i + 1].get('phone_type') == 3:
+    #                 no_str += '\n'
+    #         file_path.write('\t\t\t\t\t\t\t' + no_str)
+
+    # for _no in nums:
+    #     index = nums.index(_no)
+    #     no_str = _no.get('phone')
+    #     if _no.get('phone_type') == 3:
+    #         if index < (len(nums) - 1):
+    #             if nums[index + 1].get('phone_type') == 3:
+    #                 no_str += '\n'
+    #         file_path.write('\t\t\t\t\t\t\t\t' + no_str)
+    #
+    # for _no in nums:
+    #     index = nums.index(_no)
+    #     no_str = _no.get('phone')
+    #     if _no.get('phone_type') == 2:
+    #         if index < (len(nums) - 1):
+    #             if nums[index + 1].get('phone_type') == 2:
+    #                 no_str += '\n'
+    #     file_path.write('\t\t\t\t' + no_str)
+
+    file_path.close()
+
+
 class Phone(object):
     def __init__(self, dat_file=None):
 
         if dat_file is None:
             dat_file = os.path.join(os.path.dirname(__file__), "phone.dat")
-
+        print(dat_file)
         with open(dat_file, 'rb') as f:
             self.buf = f.read()
 
@@ -63,7 +132,7 @@ class Phone(object):
             "city": city,
             "zip_code": zip_code,
             "area_code": area_code,
-            "phone_type": Phone.get_phone_no_type(phone_type)
+            "phone_type": phone_type
         }
 
     def _lookup_phone(self, phone_num):
@@ -78,7 +147,7 @@ class Phone(object):
         while left <= right:
             middle = (left + right) // 2
             current_offset = (self.first_phone_record_offset +
-                middle * self.phone_fmt_length)
+                              middle * self.phone_fmt_length)
             if current_offset >= buflen:
                 return
 
@@ -114,6 +183,3 @@ class Phone(object):
         self.get_phone_dat_msg()
         for i in range(1529900, 1529999):
             print(self.human_phone_info(self.find(i)))
-
-
-
