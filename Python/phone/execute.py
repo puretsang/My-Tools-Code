@@ -41,7 +41,6 @@ p = Phone()
 def execute_file(file_path):
     # 实例化
     numbers = []
-
     with open(file_path, 'rb') as f:
         text = f.read()
         print(text)
