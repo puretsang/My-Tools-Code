@@ -42,46 +42,6 @@ def write2file(file_path, nums):
                 row_txt = '{}\t\t\t\t{}\t\t{}'.format(row1, row2, row3)
         file_path.write(row_txt)
         file_path.write('\n')
-
-    # for i in range(len(china_telecom)):
-    #     no_str = '\t\t\t\t' + nums[i].get('phone') + '\n'
-    #     file_path.write(no_str)
-
-    # for i in range(length):
-    #     no_str = nums[i].get('phone')
-    #     if nums[i].get('phone_type') == 3:
-    #         if i < (length - 1):
-    #             if nums[i + 1].get('phone_type') == 3:
-    #                 rowtxt = '{},{},{}'.format(,, no_str)
-    #                 file_path.write(rowtxt)
-    #                 file_path.write('\n')
-
-    # for i in range(length):
-    #     no_str = nums[i].get('phone')
-    #     if nums[i].get('phone_type') == 3:
-    #         if i < (length - 1):
-    #             if nums[i + 1].get('phone_type') == 3:
-    #                 no_str += '\n'
-    #         file_path.write('\t\t\t\t\t\t\t' + no_str)
-
-    # for _no in nums:
-    #     index = nums.index(_no)
-    #     no_str = _no.get('phone')
-    #     if _no.get('phone_type') == 3:
-    #         if index < (len(nums) - 1):
-    #             if nums[index + 1].get('phone_type') == 3:
-    #                 no_str += '\n'
-    #         file_path.write('\t\t\t\t\t\t\t\t' + no_str)
-    #
-    # for _no in nums:
-    #     index = nums.index(_no)
-    #     no_str = _no.get('phone')
-    #     if _no.get('phone_type') == 2:
-    #         if index < (len(nums) - 1):
-    #             if nums[index + 1].get('phone_type') == 2:
-    #                 no_str += '\n'
-    #     file_path.write('\t\t\t\t' + no_str)
-
     file_path.close()
 
 
