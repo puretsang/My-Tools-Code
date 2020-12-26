@@ -17,7 +17,7 @@ else:
 
 
 def write2file(area, nums):
-    file_path = open('../phone/haoma-mofang/' + area+'.txt', mode='w', encoding='utf-8')
+    file_path = open('../phone/haoma-mofang/' + area + '.txt', mode='w', encoding='utf-8')
     file_path.write('       移动\t\t\t      联通\t\t\t      电信\n')
     china_unicom = list(filter(lambda x: x.get('phone_type') == 2, nums))
     china_mobile = list(filter(lambda x: x.get('phone_type') == 1, nums))

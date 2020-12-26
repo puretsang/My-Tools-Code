@@ -226,7 +226,7 @@ def execute_file(file_path):
 
 
 # 测试
-execute_file(r'D:/PycharmProjects/My-Tools-Code/Python/phone/fan.txt')
+# execute_file(r'D:/PycharmProjects/My-Tools-Code/Python/phone/fan.txt')
 
 
 def make_zip():
