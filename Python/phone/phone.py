@@ -16,8 +16,9 @@ else:
         return buf[start_offset:end_offset]
 
 
-def write2file(file_path, nums):
-    file_path.write('\t移动\t\t\t\t联通\t\t\t\t电信\n')
+def write2file(area, nums):
+    file_path = open('../phone/haoma-mofang/' + area+'.txt', mode='w', encoding='utf-8')
+    file_path.write('       移动\t\t\t      联通\t\t\t      电信\n')
     china_unicom = list(filter(lambda x: x.get('phone_type') == 2, nums))
     china_mobile = list(filter(lambda x: x.get('phone_type') == 1, nums))
     china_telecom = list(filter(lambda x: x.get('phone_type') == 3, nums))
@@ -32,14 +33,14 @@ def write2file(file_path, nums):
             row2 = china_unicom[i].get('phone')
         if i < len(china_telecom):
             row3 = china_telecom[i].get('phone')
-        row_txt = '{}\t\t\t\t{}\t\t\t\t{}'.format(row1, row2, row3)
+        row_txt = '{}\t\t\t{}\t\t\t{}'.format(row1, row2, row3)
         if row1 != '':
-            row_txt = '{}\t\t{}\t\t\t\t{}'.format(row1, row2, row3)
+            row_txt = '{}\t\t{}\t\t\t{}'.format(row1, row2, row3)
             if row2 != '':
                 row_txt = '{}\t\t{}\t\t{}'.format(row1, row2, row3)
         else:
             if row2 != '':
-                row_txt = '{}\t\t\t\t{}\t\t{}'.format(row1, row2, row3)
+                row_txt = '{}\t\t\t{}\t\t{}'.format(row1, row2, row3)
         file_path.write(row_txt)
         file_path.write('\n')
     file_path.close()

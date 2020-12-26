@@ -1,7 +1,8 @@
 import re
 
 import chardet
-
+import os
+import zipfile
 from phone import Phone, write2file
 from collections import Counter
 
@@ -41,19 +42,30 @@ p = Phone()
 def execute_file(file_path):
     # 实例化
     numbers = []
-    with open(file_path, 'rb') as f:
-        text = f.read()
-        print(text)
-        type = chardet.detect(text)
-        charenc = type['encoding']
-        print('charenc---> ', charenc)
-        for line in f:
-            a = re.findall('(13\d{9}|14[5|7]\d{8}|15\d{9}|166{\d{8}|17[3|6|7]{\d{8}|18\d{9})', line)
-            for i in range(len(a)):
-                numbers.append(a[i].strip("\n"))
+    # with open(file_path, 'rb') as f:
+    #     text = f.read()
+    #     print(text)
+    #     type = chardet.detect(text)
+    #     charenc = type['encoding']
+    #     print('charenc---> ', charenc)
+    #     for line in f:
+    #         a = re.findall('(13\d{9}|14[5|7]\d{8}|15\d{9}|166{\d{8}|17[3|6|7]{\d{8}|18\d{9})', line)
+    #         for i in range(len(a)):
+    #             numbers.append(a[i].strip("\n"))
+    try:
+        file_text = open(file_path, mode='rb').read()
+        print('file_text ---> ', file_text)
+        a = re.findall('(13\d{9}|14[5|7]\d{8}|15\d{9}|166{\d{8}|17[3|6|7]{\d{8}|18\d{9})', str(file_text))
+        for i in range(len(a)):
+            numbers.append(a[i].strip("\n"))
+    except Exception as e:
+        print(e)
+        return False
     # 去重
     numbers2 = sorted(set(numbers), key=numbers.index)
-
+    if len(numbers2) == 0:
+        return False
+    print('len ---> ', len(numbers2))
     for _no in numbers2:
         info = p.find(_no)
         if info.get('phone_type') > 3:
@@ -122,119 +134,109 @@ def execute_file(file_path):
                 henan_no.append(info)
             elif info.get('province') == '河北':
                 hebei_no.append(info)
-    file_path = '../phone/number/'
+
     if len(beijing_no) > 0:
-        file = open(file_path + '北京.txt', 'w')
-        write2file(file, beijing_no)
+        write2file('北京', beijing_no)
 
     if len(shanghai_no) > 0:
-        file = open(file_path + '上海.txt', 'w')
-        write2file(file, shanghai_no)
+        write2file('上海', shanghai_no)
 
     if len(tianjin_no) > 0:
-        file = open(file_path + '天津.txt', 'w')
-        write2file(file, tianjin_no)
+        write2file('天津', tianjin_no)
 
     if len(cantonese_no) > 0:
-        file = open(file_path + '广东.txt', 'w')
-        write2file(file, cantonese_no)
+        write2file('广东', cantonese_no)
 
     if len(guangxi_no) > 0:
-        file = open(file_path + '广西.txt', 'w')
-        write2file(file, guangxi_no)
+        write2file('广西', guangxi_no)
 
     if len(fujian_no) > 0:
-        file = open(file_path + '福建.txt', 'w')
-        write2file(file, fujian_no)
+        write2file('福建', fujian_no)
 
     if len(zhejiang_no) > 0:
-        file = open(file_path + '浙江.txt', 'w')
-        write2file(file, zhejiang_no)
+        write2file('浙江', zhejiang_no)
 
     if len(jiangsu_no) > 0:
-        file = open(file_path + '江苏.txt', 'w')
-        write2file(file, jiangsu_no)
+        write2file('江苏', jiangsu_no)
 
     if len(shandong_no) > 0:
-        file = open(file_path + '山东.txt', 'w')
-        write2file(file, shandong_no)
+        write2file('山东', shandong_no)
 
     if len(liaoning_no) > 0:
-        file = open(file_path + '辽宁.txt', 'w')
-        write2file(file, liaoning_no)
+        write2file('辽宁', liaoning_no)
 
     if len(jilin_no) > 0:
-        file = open(file_path + '吉林.txt', 'w')
-        write2file(file, jilin_no)
+        write2file('吉林', jilin_no)
 
     if len(heilongjiang_no) > 0:
-        file = open(file_path + '黑龙江.txt', 'w')
-        write2file(file, heilongjiang_no)
+        write2file('黑龙江', heilongjiang_no)
 
     if len(neimenggu_no) > 0:
-        file = open(file_path + '内蒙古.txt', 'w')
-        write2file(file, neimenggu_no)
+        write2file('内蒙古', neimenggu_no)
 
     if len(shanxi_no) > 0:
-        file = open(file_path + '山西.txt', 'w')
-        write2file(file, shanxi_no)
+        write2file('山西', shanxi_no)
 
     if len(shanc_no) > 0:
-        file = open(file_path + '陕西.txt', 'w')
-        write2file(file, shanc_no)
+        write2file('陕西', shanc_no)
 
     if len(qinghai_no) > 0:
-        file = open(file_path + '青海.txt', 'w')
-        write2file(file, qinghai_no)
+        write2file('青海', qinghai_no)
 
     if len(xinjiang_no) > 0:
-        file = open(file_path + '新疆.txt', 'w')
-        write2file(file, xinjiang_no)
+        write2file('新疆', xinjiang_no)
 
     if len(xizang_no) > 0:
-        file = open(file_path + '西藏.txt', 'w')
-        write2file(file, xizang_no)
+        write2file('西藏', xizang_no)
 
     if len(yunnan_no) > 0:
-        file = open(file_path + '云南.txt', 'w')
-        write2file(file, yunnan_no)
+        write2file('云南', yunnan_no)
 
     if len(sichuan_no) > 0:
-        file = open(file_path + '四川.txt', 'w')
-        write2file(file, sichuan_no)
+        write2file('四川', sichuan_no)
 
     if len(chongqing_no) > 0:
-        file = open(file_path + '重庆.txt', 'w')
-        write2file(file, chongqing_no)
+        write2file('重庆', chongqing_no)
 
     if len(hunan_no) > 0:
-        file = open(file_path + '湖南.txt', 'w')
-        write2file(file, hunan_no)
+        write2file('湖南', hunan_no)
 
     if len(hubei_no) > 0:
-        file = open(file_path + '湖北.txt', 'w')
-        write2file(file, hubei_no)
+        write2file('湖北', hubei_no)
 
     if len(guizhou_no) > 0:
-        file = open(file_path + '贵州.txt', 'w')
-        write2file(file, guizhou_no)
+        write2file('贵州', guizhou_no)
 
     if len(henan_no) > 0:
-        file = open(file_path + '河南.txt', 'w')
-        write2file(file, henan_no)
+        write2file('河南', henan_no)
 
     if len(hebei_no) > 0:
-        file = open(file_path + '河北.txt', 'w')
-        write2file(file, hebei_no)
+        write2file('河北', hebei_no)
 
     if len(hainan_no) > 0:
-        file = open(file_path + '海南.txt', 'w')
-        write2file(file, hainan_no)
+        write2file('海南', hainan_no)
 
     if len(jiangxi_no) > 0:
-        file = open(file_path + '江西.txt', 'w')
-        write2file(file, jiangxi_no)
+        write2file('江西', jiangxi_no)
 
     if len(ningxia_no) > 0:
-        file = open(file_path + '宁夏.txt', 'w')
-        write2file(file, ningxia_no)
+        write2file('宁夏', ningxia_no)
+
+    return True
+
+
+# 测试
+execute_file(r'D:/PycharmProjects/My-Tools-Code/Python/phone/fan.txt')
+
+
+def make_zip():
+    source_dir = '../phone/number'
+    output_filename = 'C:/Users/admin/Desktop/haoma-mofang.zip'
+    zipf = zipfile.ZipFile(output_filename, 'w')
+    pre_len = len(os.path.dirname(source_dir))
+    for parent, dirnames, filenames in os.walk(source_dir):
+        for filename in filenames:
+            pathfile = os.path.join(parent, filename)
+            arcname = pathfile[pre_len:].strip(os.path.sep)  # 相对路径
+            zipf.write(pathfile, arcname)
+    zipf.close()
